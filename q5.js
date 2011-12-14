@@ -1,16 +1,11 @@
 (function() {
-  var current, is_div_all, is_prime, max, min, mult, num, primes, sqrt;
-
-  sqrt = function(num) {
-    return Math.pow(num, 0.5);
-  };
+  var current, is_div_all, is_prime, max, min, mult, num, primes;
 
   is_prime = function(num) {
     var i;
-    if (num === 2) return true;
     i = 2;
     while (true) {
-      if (i > Math.ceil(sqrt(num))) break;
+      if (i > Math.ceil(Math.sqrt(num))) break;
       if (num % i === 0) return false;
       i += 1;
     }
@@ -27,13 +22,9 @@
   })();
 
   mult = function(number) {
-    var mul, num, _i, _len;
-    mul = 1;
-    for (_i = 0, _len = number.length; _i < _len; _i++) {
-      num = number[_i];
-      mul *= num;
-    }
-    return mul;
+    return number.reduce(function(x, y) {
+      return x * y;
+    });
   };
 
   is_div_all = function(number) {

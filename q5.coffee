@@ -1,22 +1,15 @@
-sqrt = (num)->
-	Math.pow(num, 0.5)
 is_prime = (num) ->
-	if num == 2
-		return true
 	i = 2
 	loop
-		break if i > Math.ceil(sqrt(num))
+		break if i > Math.ceil(Math.sqrt(num))
 		if num % i == 0
 			return false
 		i += 1
 	return true
 	
 primes = (num for num in [1..20] when is_prime(num))
-mult = (number) ->
-	mul = 1
-	for num in number
-		mul *= num
-	return mul
+mult = (number) -> number.reduce((x,y) -> x*y)
+
 	
 is_div_all = (number)->
 	for i in [1..20]
