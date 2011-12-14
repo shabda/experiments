@@ -2,13 +2,9 @@
   var num, sum, _i, _results;
 
   sum = function(iterable) {
-    var i, summed, _i, _len;
-    summed = 0;
-    for (_i = 0, _len = iterable.length; _i < _len; _i++) {
-      i = iterable[_i];
-      summed += i;
-    }
-    return summed;
+    return iterable.reduce(function(x, y) {
+      return x + y;
+    });
   };
 
   if (typeof console !== "undefined" && console !== null) {

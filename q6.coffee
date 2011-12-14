@@ -1,7 +1,4 @@
 sum = (iterable) ->
-	summed = 0
-	for i in iterable
-		summed += i
-	return summed
+	iterable.reduce((x, y) -> x+y)
 	
 console?.log Math.pow(sum([1..100]), 2) - sum((num*num for num in [1..100]))
