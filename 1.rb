@@ -6,4 +6,7 @@ sum = 0
 end
 
 puts sum
+
+puts (1..1000).to_a.select {|x| x%3==0 or x%5==0}.inject(0){|b,i| b+i}
+
     
