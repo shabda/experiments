@@ -1,1 +1,0 @@
-Learning the [IO Language](http://iolanguage.org/)
