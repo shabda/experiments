@@ -64,3 +64,38 @@ func fizzbuzz(number: Int) -> (Int, Int, Int){
 fizzbuzz(100)
 fizzbuzz(1000)
 
+// Find the sum of all the multiples of 3 or 5 below 1000.
+
+func calc_sum(number: Int) -> Int{
+    var sum = 0;
+    for i in 1..<number{
+        if (i % 3 == 0) || (i % 5 == 0){
+            sum += i;
+        }
+    }
+    return sum
+}
+
+calc_sum(1000)
+
+// Sum all fibs below 1000
+func sum_even_fibs(number: Int) -> Int{
+    var sum = 0
+    var (a, b) = (1, 2)
+    var fibs = [1, 2]
+    while (b<number){
+        (a, b) = (b, a+b)
+        fibs.append(b)
+    }
+    fibs.popLast()
+    for i in fibs{
+        if i % 2 == 0{
+            sum+=i;
+        }
+    }
+
+    return sum
+}
+
+sum_even_fibs(1000)
+
