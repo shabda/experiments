@@ -99,3 +99,28 @@ func sum_even_fibs(number: Int) -> Int{
 
 sum_even_fibs(1000)
 
+class Dog{
+    var name: String
+    var sound = "Woof"
+    
+    init(name: String, sound: String="Woof"){
+        self.name = name
+        self.sound = sound
+    }
+    
+    
+    func bark() -> String{
+        return "\(name) says \(sound)"
+    }
+    
+    func barkLoudly() -> String{
+        return bark().uppercaseString
+    }
+}
+
+var shera = Dog(name: "Shera")
+
+print(shera.name)
+print(shera.bark())
+print(shera.barkLoudly())
+
