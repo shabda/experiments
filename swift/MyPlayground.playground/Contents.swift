@@ -99,12 +99,19 @@ func sum_even_fibs(number: Int) -> Int{
 
 sum_even_fibs(1000)
 
-class Dog{
+class Animal{
     var name: String
+    
+    init(name: String){
+        self.name = name
+    }
+}
+
+class Dog: Animal{
     var sound = "Woof"
     
     init(name: String, sound: String="Woof"){
-        self.name = name
+        super.init(name: name)
         self.sound = sound
     }
     
@@ -118,9 +125,21 @@ class Dog{
     }
 }
 
-var shera = Dog(name: "Shera")
+
+class Cat: Animal{
+    var sound = "Meow"
+    
+    func meow() -> String{
+        return "\(name) says \(sound)"
+    }
+}
+
+var fido = Dog(name: "Fido")
+var shera = Dog(name: "Shera", sound: "Bhow Bhow")
+var kat = Cat(name: "Kat")
 
 print(shera.name)
 print(shera.bark())
 print(shera.barkLoudly())
-
+print(fido.barkLoudly())
+print (kat.meow())
