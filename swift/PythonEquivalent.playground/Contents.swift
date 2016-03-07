@@ -48,8 +48,10 @@ greet("hello", optionalName: nil)
 func howBig(number: Int) -> String{
     var size: String
     switch number{
-    case 1:
-        size = "Small"
+    case 1..<10:
+        size = "Single Digit"
+    case 10..<100:
+        size = "Double Digit"
     default:
         size = "Big"
         
@@ -57,6 +59,9 @@ func howBig(number: Int) -> String{
     return size
 }
 howBig(1)
+howBig(10)
+howBig(99)
+howBig(100)
 
 
 let interestingNumbers = [
@@ -90,3 +95,18 @@ func rootMeanSquare(numbers: Double...) -> Double{
 }
 
 rootMeanSquare(1, 2, 3)
+
+func halfOpenRangeLength(start: Int, end: Int) -> Int {
+    return end - start
+}
+
+print(halfOpenRangeLength(1, end: 10))
+
+func getIncrementer(incBy: Int) -> (Int) -> Int{
+    func incremeter(start: Int) -> Int{
+        return start + incBy
+    }
+    return incremeter
+}
+
+getIncrementer(5)(10)
