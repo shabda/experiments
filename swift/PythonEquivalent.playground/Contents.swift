@@ -110,3 +110,83 @@ func getIncrementer(incBy: Int) -> (Int) -> Int{
 }
 
 getIncrementer(5)(10)
+
+enum Color: Int{
+    case Red = 0xFF0000
+    case Blue = 0x00FF00
+    case Green = 0x0000FF
+}
+
+var color: Color
+color = .Red
+print(color.rawValue)
+
+struct Software {
+    var name: String?
+    var version: String?
+}
+
+let software = Software(name: "Django", version: "1.9.1")
+var software2 = software
+software2.name = "Viper Django"
+
+print(software.name!)
+print(software2.name!)
+
+class Widget{
+    var color: Color
+    var software: Software
+    
+    init(color: Color, software: Software){
+        self.color = color
+        self.software = software
+    }
+    
+}
+
+let widget = Widget(color: .Red, software: software)
+
+widget.software.version
+widget.color.rawValue
+
+class User{
+    var firstName: String
+    var lastName: String
+    
+    init(firstName: String, lastName: String){
+        self.firstName = firstName
+        self.lastName = lastName
+    }
+    
+    var fullName: String{
+        return firstName + " " + lastName
+    }
+    
+    func getAngry(){
+        self.firstName = self.firstName.uppercaseString
+    }
+}
+
+var user = User(firstName: "Tim", lastName: "Barnes-Lee")
+user.fullName
+user.getAngry()
+user.fullName
+
+extension Double{
+    var triple: Double {return self * 3}
+}
+
+let x = 10.0
+
+x.triple
+
+extension User{
+    func formalName() -> String{
+        return self.lastName + ", " + self.firstName
+    }
+}
+
+user.formalName()
+
+
+

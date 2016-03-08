@@ -127,7 +127,7 @@ class Dog: Animal{
 
 
 class Cat: Animal{
-    var sound = "Meow"
+    var sound = "Meow, Meow"
     
     func meow() -> String{
         return "\(name) says \(sound)"
