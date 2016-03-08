@@ -10,10 +10,21 @@ enum Channel{
     case Blue
 }
 
-func removeChannel(image: UIImage, channel: Channel) -> UIImage{
+func transformImage(image: UIImage, transformer: (Pixel) -> Pixel) -> UIImage{
     let rgbaImage = RGBAImage(image: image)!
     for index in 0..<rgbaImage.pixels.count{
         var pixel = rgbaImage.pixels[index]
+        pixel = transformer(pixel)
+        rgbaImage.pixels[index] = pixel
+    }
+    return rgbaImage.toUIImage()!
+
+}
+
+
+func removeChannel(image: UIImage, channel: Channel) -> UIImage{
+    let transformer = {
+        (var pixel: Pixel) -> Pixel in
         switch channel{
         case .Red:
             pixel.red = 0
@@ -22,16 +33,14 @@ func removeChannel(image: UIImage, channel: Channel) -> UIImage{
         case .Green:
             pixel.green = 0
         }
-
-        rgbaImage.pixels[index] = pixel
+        return pixel
     }
-    return rgbaImage.toUIImage()!
+    return transformImage(image, transformer: transformer)
 }
 
 func removeRed(image: UIImage) -> UIImage{
     return removeChannel(image, channel: Channel.Red)
 }
-
 
 func removeGreen(image: UIImage) -> UIImage{
     return removeChannel(image, channel: Channel.Green)
@@ -40,6 +49,8 @@ func removeGreen(image: UIImage) -> UIImage{
 func removeBlue(image: UIImage) -> UIImage{
     return removeChannel(image, channel: Channel.Blue)
 }
+
+
 
 
 
