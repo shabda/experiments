@@ -17,7 +17,7 @@ enum Channel{
     Usage:
     var imageProcessor = ImageProcessor(image: image)
     imageProcessor.removeGreen()
-    imageProcessor.removeGreen.ligtenBy(-50)
+    imageProcessor.removeGreen().ligtenBy(-50)
 
 */
 class ImageProcessor{
@@ -30,7 +30,7 @@ class ImageProcessor{
     /*
     Takesn a function with signature (Pixel) -> Pixel and applies the function to each pixel of the image
     */
-    func transformImage(transformer: (Pixel) -> Pixel) -> UIImage{
+    func transformImage(transformer: (Pixel) -> Pixel) -> ImageProcessor{
         let rgbaImage = RGBAImage(image: image)!
         // It is not necessary to loop width, then columns as we are applying the same function to each pixel
         // So we can loop over all in one loop.
@@ -39,14 +39,15 @@ class ImageProcessor{
             pixel = transformer(pixel)
             rgbaImage.pixels[index] = pixel
         }
-        return rgbaImage.toUIImage()!
+        self.image = rgbaImage.toUIImage()!
+    return self
         
     }
     
     /*
     Takes a channel and removes it completely
     */
-    func removeChannel(channel: Channel) -> UIImage{
+    func removeChannel(channel: Channel) -> ImageProcessor{
         let transformer = {
             (var pixel: Pixel) -> Pixel in
             switch channel{
@@ -62,22 +63,22 @@ class ImageProcessor{
         return transformImage(transformer)
     }
     
-    func removeRed() -> UIImage{
+    func removeRed() -> ImageProcessor{
         return removeChannel(Channel.Red)
     }
     
-    func removeGreen() -> UIImage{
+    func removeGreen() -> ImageProcessor{
         return removeChannel(Channel.Green)
     }
     
-    func removeBlue() -> UIImage{
+    func removeBlue() -> ImageProcessor{
         return removeChannel(Channel.Blue)
     }
     
     /*
     Converts image to grayScale
     */
-    func grayScale() -> UIImage{
+    func grayScale() -> ImageProcessor{
         let transformer = {
             (var pixel: Pixel) -> Pixel in
             let avg = UInt8((Int(pixel.red) + Int(pixel.green) + Int(pixel.blue))/3)
@@ -91,13 +92,13 @@ class ImageProcessor{
     Darkens or lightens and image by a given value.
     Negative values will Darken the image
     */
-    func ligtenBy(by: Int) ->UIImage{
+    func lightenBy(by: Int) -> ImageProcessor{
         let transformer = {
             (var pixel: Pixel) -> Pixel in
             let maxValue = 255
-            let green: Int = min(maxValue, Int(pixel.green)+by)
-            let red: Int = min(maxValue, Int(pixel.red)+by)
-            let blue: Int = min(maxValue, Int(pixel.blue)+by)
+            let green: Int = max(0, min(maxValue, Int(pixel.green)+by))
+            let red: Int = max(0, min(maxValue, Int(pixel.red)+by))
+            let blue: Int = max(0, min(maxValue, Int(pixel.blue)+by))
             (pixel.green, pixel.red, pixel.blue) = (UInt8(green), UInt8(red), UInt8(blue))
             return pixel
         }
@@ -107,6 +108,5 @@ class ImageProcessor{
 }
 
 var imageProcessor = ImageProcessor(image: image!)
-//ImageProcessor(image: imageProcessor.removeGreen()).ligtenBy(-50)
-ImageProcessor(image: imageProcessor.grayScale()).ligtenBy(30)
+imageProcessor.grayScale().removeBlue().lightenBy(-50).image
 
