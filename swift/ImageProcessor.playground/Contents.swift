@@ -27,8 +27,18 @@ class ImageProcessor{
         self.image = image
     }
     
+    func preDefinedFilters(filterName: String) -> ImageProcessor{
+        let filters = [
+            "RemoveRed": removeRed,
+            "RemoveGreen": removeGreen,
+            "RemoveBlue": removeBlue,
+            "GrayScale": grayScale,
+        ]
+        return filters[filterName]!()
+    }
+    
     /*
-    Takesn a function with signature (Pixel) -> Pixel and applies the function to each pixel of the image
+    Takes a function with signature (Pixel) -> Pixel and applies the function to each pixel of the image
     */
     func transformImage(transformer: (Pixel) -> Pixel) -> ImageProcessor{
         let rgbaImage = RGBAImage(image: image)!
@@ -41,7 +51,6 @@ class ImageProcessor{
         }
         self.image = rgbaImage.toUIImage()!
     return self
-        
     }
     
     /*
@@ -62,6 +71,34 @@ class ImageProcessor{
         }
         return transformImage(transformer)
     }
+    
+    func reduceChannel(channel: Channel, by: UInt8) -> ImageProcessor{
+        let transformer = {
+            (var pixel: Pixel) -> Pixel in
+            let clampedSubtraction = {
+                (let x: UInt8, subBy: UInt8) -> UInt8 in
+                let diff = Int(x) - Int(subBy)
+                let val = max(0, min(255, diff))
+                return UInt8(val)
+            }
+            switch channel{
+            case .Red:
+                pixel.red = clampedSubtraction(pixel.red, by)
+            case .Blue:
+                pixel.blue = clampedSubtraction(pixel.blue, by)
+            case .Green:
+                pixel.green = clampedSubtraction(pixel.green, by)
+            }
+            return pixel
+        }
+        return transformImage(transformer)
+    }
+
+    func boostChannel(channel: Channel, by: UInt8) -> ImageProcessor{
+        return reduceChannel(channel, by: (0-by))
+        
+    }
+    
     
     func removeRed() -> ImageProcessor{
         return removeChannel(Channel.Red)
@@ -108,5 +145,8 @@ class ImageProcessor{
 }
 
 var imageProcessor = ImageProcessor(image: image!)
-imageProcessor.grayScale().removeBlue().lightenBy(-50).image
+//imageProcessor.grayScale().removeBlue().lightenBy(-50).image
+//imageProcessor.reduceChannel(.Red, by: 10)
+//imageProcessor.preDefinedFilters("RemoveRed")
+imageProcessor.preDefinedFilters("GrayScale")
 
