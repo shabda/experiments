@@ -50,6 +50,7 @@ DEFAULT_THRESHOLD_VALUE = 200
 
 
 class PrimeBinaryImage:
+
     def __init__(self, image_name, image_size=DEFAULT_SIZE, threshold_value=DEFAULT_THRESHOLD_VALUE):
         self.image_name = image_name
         self.image_size = image_size
@@ -58,7 +59,7 @@ class PrimeBinaryImage:
 
     def get_image_as_numpy_array(self):
         img = Image.open(self.image_name)
-        img = img.resize((self.image_size , self.image_size), Image.ANTIALIAS)
+        img = img.resize((self.image_size, self.image_size), Image.ANTIALIAS)
         img = img.convert("L")
         img_data = np.asarray(img)
         thresholded_data = (img_data < self.threshold_value) * 1
@@ -74,7 +75,7 @@ class PrimeBinaryImage:
         square = ""
         for i in range(self.image_size):
             k = i * self.image_size
-            square += padded_binary_string[k:k+self.image_size].replace("", " ")[1: -1]
+            square += padded_binary_string[k:k + self.image_size].replace("", " ")[1: -1]
             square += "\n"
         return square
 
@@ -130,11 +131,11 @@ class PrimeBinaryImage:
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Convert images to a prime which matches the image')
     parser.add_argument('-f', '--file', help='Path to image file, use square images for best results.',
-        required=True)
+                        required=True)
     parser.add_argument('-s', '--size',
-        help='Width/Height of generated image/number', default=DEFAULT_SIZE, type=int,)
+                        help='Width/Height of generated image/number', default=DEFAULT_SIZE, type=int,)
     parser.add_argument('-t', '--threshold',
-        help='Bits below this threshold are True', default=DEFAULT_THRESHOLD_VALUE, type=int,)
+                        help='Bits below this threshold are True', default=DEFAULT_THRESHOLD_VALUE, type=int,)
     args = parser.parse_args()
     args = parser.parse_args()
     prime_binary_image = PrimeBinaryImage(image_name=args.file, image_size=args.size, threshold_value=args.threshold)

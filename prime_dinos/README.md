@@ -93,4 +93,14 @@ Which gives us
     0 0 0 0 0 0 0 0 1 1 1 0 0 0 0 0 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
     0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 0 0 0 0 0 0 0 0 0 0 0 1 0 1 0 0 1 1 1 1 1
 
+### How does this work?
+
+    * We read the image and convert to desired size
+    * The image data is converted to monochrome and pixels darker (lower) than a threshhold are converted 1, rest pixels are zero.
+    * This data is read in in a numpy array
+    * This 2d array is flattened, and treated as a bitarray to get a number
+    * We then start incrementing the number until we get a prime.
+    * The primality is tested using the Miller Rabin test.
+    * When such a number is found the number is converted to its binary represntation, and dispalyed in a square grid.
+
 
